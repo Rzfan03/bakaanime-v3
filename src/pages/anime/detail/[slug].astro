@@ -1,0 +1,45 @@
+---
+export const prerender = false;
+import Layout from "../../../layouts/Layout.astro";
+const { slug } = Astro.params
+const ApiUrl = await fetch(`https://www.sankavollerei.com/anime/anime/${slug}`)
+const Result = await ApiUrl.json()
+const EpsList = Result.data.episodeList
+const Anime = Result.data
+const AnimeSynop = Anime.synopsis
+console.log(EpsList)
+---
+
+<Layout>
+    <section class="min-h-screen bg-zinc-900 p-8 overflow-auto">
+        <div class="flex max-md:flex-col justify-center gap-12">
+            <div>
+                <img class="h-full w-md saturate-0 hover:saturate-100 transition-all" src={Anime.poster}/>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h1 class="text-zinc-200 text-4xl max-w-xl font-medium">{Anime.title}</h1>
+                <h1 class="text-zinc-200 text-4xl max-w-xl font-medium">{Anime.japanese}</h1>
+                <div class="flex gap-3">
+                    <p class="text-zinc-200 underline">Status : {Anime.status}</p>
+                    <p class="text-zinc-200 underline">Type : {Anime.type}</p>
+                    <p class="text-zinc-200 underline">Episode : {Anime.episodes}</p>
+                </div>
+                <p class="text-sm text-zinc-400 max-w-md">{AnimeSynop.paragraphs || "Anime ini tidak punya synopsis"}</p>
+                <div class="bg-zinc-900 border border-zinc-800">
+                    <h1 class="bg-zinc-800 p-2 text-white">Episode List</h1>
+                    <div class="grid grid-cols-3 gap-3 p-3">
+                        {EpsList.map((data) => {
+                        return (
+                        <a href={`../../anime/episode/${data.episodeId}`}>
+                            <div class="p-2 text-center bg-zinc-700 border border-zinc-600 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-200">
+                                <p class="font-medium text-sm">{data.eps}</p>
+                            </div>
+                        </a>
+                        )
+                        })}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>

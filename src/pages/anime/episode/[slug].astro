@@ -1,0 +1,130 @@
+---
+export const prerender = false;
+import Layout from "../../../layouts/Layout.astro";
+
+const { slug } = Astro.params;
+const { searchParams } = Astro.url;
+const reso = searchParams.get("reso") || "480p";
+
+const response = await fetch(`https://www.sankavollerei.com/anime/episode/${slug}`);
+const result = await response.json();
+const episode = result.data || {};
+
+const streamUrl = episode.defaultStreamingUrl;
+---
+
+<Layout title={episode.title || "Loading..."}>
+  {episode.server ? (
+    <section class="min-h-screen bg-zinc-900 p-8 overflow-auto">
+      <div class="max-w-5xl mx-auto flex flex-col gap-6">
+        
+        <div class="flex flex-col gap-3 items-center text-center">
+          <h1 class="text-zinc-200 text-3xl font-medium">{episode.title}</h1>
+          <p class="text-zinc-400 text-sm italic">{episode.releaseTime}</p>
+        </div>
+
+        <div class="flex justify-center">
+          <div class="relative bg-black border border-zinc-800 aspect-video w-full shadow-2xl">
+            <iframe 
+              src={streamUrl} 
+              class="absolute inset-0 w-full h-full" 
+              allowfullscreen 
+              frameborder="0">
+            </iframe>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-zinc-900 border border-zinc-800">
+          <div class="flex gap-3">
+            {episode.hasPrevEpisode && (
+              <a href={`/anime/episode/${episode.prevEpisode.episodeId}`} class="px-6 py-2 bg-zinc-700 text-zinc-200 text-sm hover:bg-zinc-600 transition-all border border-zinc-600">
+                Prev
+              </a>
+            )}
+            {episode.hasNextEpisode && (
+              <a href={`/anime/episode/${episode.nextEpisode.episodeId}`} class="px-6 py-2 bg-zinc-700 text-zinc-200 text-sm hover:bg-zinc-600 transition-all border border-zinc-600">
+                Next
+              </a>
+            )}
+          </div>
+
+          <div class="flex gap-2">
+            {episode.server.qualities.map((q) => (
+              <a 
+                href={`?reso=${q.title}`}
+                class={`px-4 py-1 text-xs font-medium border border-zinc-700 transition-all ${reso === q.title ? 'bg-zinc-200 text-zinc-900 border-white' : 'bg-zinc-800 text-zinc-400 hover:text-zinc-200'}`}
+              >
+                {q.title}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800">
+            <h1 class="bg-zinc-800 p-2 text-white">Episode List</h1>
+            <div class="grid grid-cols-3 gap-3 p-3">
+                {episode.info?.episodeList?.map((data) => {
+                return (
+                <a href={`../../anime/episode/${data.episodeId}`}>
+                    <div class="p-2 text-center bg-zinc-700 border border-zinc-600 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-200">
+                        <p class="font-medium text-sm">{data.eps}</p>
+                    </div>
+                </a>
+                )
+                })}
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="flex-1 w-full flex flex-col gap-3">
+            <h2 class="text-zinc-200 text-xl font-medium flex items-center gap-2">
+              Download Options
+            </h2>
+            <div class="space-y-2">
+              {episode.downloadUrl?.qualities?.map((q) => (
+                <details class="group bg-zinc-900 border border-zinc-800 overflow-hidden">
+                  <summary class="flex justify-between items-center p-3 cursor-pointer list-none select-none hover:bg-zinc-800 transition-all">
+                    <div class="flex items-center gap-4">
+                      <span class="text-zinc-200 font-medium text-sm">{q.title}</span>
+                      <span class="text-[10px] text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">{q.size}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-zinc-500 group-open:rotate-180 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414" clip-rule="evenodd" />
+                    </svg>
+                  </summary>
+                  <div class="p-3 bg-zinc-900 grid grid-cols-2 sm:grid-cols-3 gap-2 border-t border-zinc-800">
+                    {q.urls.map((link) => (
+                      <a href={link.url} target="_blank" class="p-2 bg-zinc-800 text-zinc-300 text-[10px] text-center hover:bg-zinc-200 hover:text-zinc-900 border border-zinc-700 transition-all font-medium uppercase">
+                        {link.title}
+                      </a>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  ) : (
+    <div class="min-h-screen bg-zinc-900 flex items-center justify-center text-zinc-400">
+      <div class="flex flex-col items-center gap-4">
+        <div class="w-8 h-8 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-sm tracking-widest uppercase">Initializing Stream</p>
+      </div>
+    </div>
+  )}
+</Layout>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+  }
+</style>
