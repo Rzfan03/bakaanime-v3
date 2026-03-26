@@ -1,11 +1,35 @@
 ---
-const { slug } = Astro.props;
 import Layout from "../../../layouts/Layout.astro";
+const query = Astro.url.searchParams.get('q') || "jojo";
+const ApiUrl = await fetch(`https://www.sankavollerei.com/anime/search/${query}`)
+const Result = await ApiUrl.json()
+const getSearchData = await Result.data.animeList
+console.log(getSearchData)
 ---
-<Layout title="Cari Anime">
-    <!-- <div class="min-h-screen">
-        <form method="">
-            
-        </form>
-    </div> -->
+<Layout title={query || "Cari Anime"}>
+    <section class="min-h-screen flex flex-col gap-8 p-8">
+        <div class="flex gap-2">
+            <form method="GET" action="/anime/search">
+                <input name="q" class="bg-zinc-100 p-2 max-md:w-fit w-120" placeholder="Cari Anime"/>
+                <button type="submit" class="bg-zinc-800 p-2 text-zinc-100">Cari</button>
+            </form>
+        </div>
+            <h1 class="text-2xl font-medium text-zinc-100">Hasil Pencarian untuk : {query}</h1>
+        <div class="grid grid-cols-4 max-md:grid-cols-1 gap-6">
+            {getSearchData.map((data:any) => {
+            return (
+            <div class="flex flex-col gap-3 p-2">
+                <a class="flex flex-col gap-3" href={`../../anime/detail/${data.animeId}`}>        
+            <img class="w-sm h-fit hover:saturate-50 hover:scale-95 transition-all" src={data.poster}/>
+            <div class="flex flex-col">
+                <p class="text-white mb-2">{data.title}</p>
+                <p class="text-zinc-300 text-sm">Status : {data.status}</p>
+                <p class="text-zinc-300 text-sm">Rating : {data.score}</p>
+            </div>
+                </a>    
+            </div>
+            )
+            })}
+        </div>
+    </section>
 </Layout>

@@ -44,7 +44,7 @@ console.log(RecommendedAnime)
             <div class="bg-zinc-900 border border-zinc-800 w-full">
                 <h1 class="bg-zinc-800 p-2 text-white">Episode List</h1>
                 <div class="grid grid-cols-3 md:grid-cols-5 gap-3 p-3">
-                    {EpsList.map((data:any) => (
+                    {EpsList?.map((data:any) => (
                     <a href={`/anime/episode/${data.episodeId}`}>
                         <div class="p-2 text-center bg-zinc-700 border border-zinc-600 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-200">
                             <p class="font-medium text-sm">{data.eps}</p>

@@ -1,5 +1,6 @@
 [X] Add Home Page
 [X] Add Detail Anime Page
 [X] Add Watch Anime Page
-[] Fix Layout at Home Page
-[] Fix Layout at Home Page
+[] Add Search Page
+[X] Add Genre List Page
+[X] Fix Layout at Home Page
