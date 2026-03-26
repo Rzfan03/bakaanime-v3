@@ -1,5 +1,3 @@
----
----
 <nav class="sticky top-0 z-[999] bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     
@@ -15,12 +13,50 @@
       <a href="/anime/search" class="text-zinc-400 hover:text-zinc-100 text-sm font-medium">Cari Anime</a>
       <a href="/anime/genre" class="text-zinc-400 hover:text-zinc-100 text-sm font-medium">Genre</a>
       <a href="/anime/jadwal" class="text-zinc-400 hover:text-zinc-100 text-sm font-medium">Jadwal Anime</a>
-      <a title="Bantu Kami Untuk Mendevelop Bakaanime" href="/anime/jadwal" class="text-zinc-400 hover:text-zinc-100 text-sm font-medium">Donate</a>
     </div>
 
-    <button class="md:hidden text-zinc-100">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    <button id="hamburger" class="md:hidden text-zinc-100 p-2">
+      <svg id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" x2="20" y1="6" y2="6"/>
+        <line x1="4" x2="20" y1="12" y2="12"/>
+        <line x1="4" x2="20" y1="18" y2="18"/>
+      </svg>
     </button>
+  </div>
 
+ 
+  <div id="mobile-menu" class="hidden md:hidden bg-zinc-950 border-t border-zinc-800">
+    <div class="px-6 py-6 flex flex-col gap-5 text-lg">
+      <a href="/" class="text-zinc-400 hover:text-zinc-100 transition-colors">Beranda</a>
+      <a href="/anime/search" class="text-zinc-400 hover:text-zinc-100 transition-colors">Cari Anime</a>
+      <a href="/anime/genre" class="text-zinc-400 hover:text-zinc-100 transition-colors">Genre</a>
+      <a href="/anime/jadwal" class="text-zinc-400 hover:text-zinc-100 transition-colors">Jadwal Anime</a>
+    </div>
   </div>
 </nav>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    
+    if (mobileMenu.classList.contains('hidden')) {
+      hamburgerIcon.innerHTML = `
+        <line x1="4" x2="20" y1="6" y2="6"/>
+        <line x1="4" x2="20" y1="12" y2="12"/>
+        <line x1="4" x2="20" y1="18" y2="18"/>
+      `;
+    } else {
+      hamburgerIcon.innerHTML = `
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      `;
+    }
+  });
+</script>
+
+
+<!-- i hate js! -->

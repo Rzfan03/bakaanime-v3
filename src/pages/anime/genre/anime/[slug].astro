@@ -10,7 +10,7 @@ console.log(Result)
 <Layout title={slug}>
     <div class="min-h-screen p-8 flex flex-col justify-center">
         <h1 class="p-6 font-bold text-3xl text-zinc-100">Genre : {slug}</h1>
-        <div class="grid grid-cols-4 gap-8">
+        <div class="grid grid-cols-4 max-md:grid-cols-1 gap-8">
             {AnimeList.map((data:any) => {
             return(
             <div class="flex flex-col gap-2 p-4 h-fit">

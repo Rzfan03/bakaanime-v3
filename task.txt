@@ -1,6 +1,7 @@
 [X] Add Home Page
 [X] Add Detail Anime Page
 [X] Add Watch Anime Page
-[] Add Search Page
+[X] Add Search Page
 [X] Add Genre List Page
 [X] Fix Layout at Home Page
+[ ] Fix Bugs EpsList & GenreList
