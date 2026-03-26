@@ -1,0 +1,28 @@
+---
+import Layout from "../../../../layouts/Layout.astro"
+const { slug } = Astro.params
+const ApiUrl = await fetch(`https://www.sankavollerei.com/anime/genre/${slug}`)
+const Result = await ApiUrl.json()
+const AnimeList = Result.data.animeList
+console.log(Result)
+---
+
+<Layout title={slug}>
+    <div class="min-h-screen p-8 flex flex-col justify-center">
+        <h1 class="p-6 font-bold text-3xl text-zinc-100">Genre : {slug}</h1>
+        <div class="grid grid-cols-4 gap-8">
+            {AnimeList.map((data:any) => {
+            return(
+            <div class="flex flex-col gap-2 p-4 h-fit">
+                <a href={`../../../anime/detail/${data.animeId}`}>
+                    <img src={data.poster} class="mb-3 w-sm"/>
+                         <h1 class="text-zinc-100 text-sm">{data.title}</h1>
+                         <h1 class="text-zinc-100 text-sm">{data.studios}</h1>
+                         <h1 class="text-zinc-100 text-sm">Eps : {data.episodes || "-"}</h1>
+                </a>
+            </div>
+            )
+            })}
+        </div>
+    </div>
+</Layout>

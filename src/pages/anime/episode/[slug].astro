@@ -37,7 +37,9 @@ if (targetServer?.serverId) {
 
         <div class="flex justify-center">
           <div class="relative bg-black border border-zinc-800 aspect-video w-full shadow-2xl">
-            <iframe 
+            <iframe
+            transition:name="media-player"
+              transition:persist 
               src={streamUrl} 
               class="absolute inset-0 w-full h-full" 
               allowfullscreen 
@@ -75,7 +77,7 @@ if (targetServer?.serverId) {
         <div class="bg-zinc-900 border border-zinc-800">
             <h1 class="bg-zinc-800 p-2 text-white">Episode List</h1>
             <div class="grid grid-cols-3 gap-3 p-3">
-                {episode.info?.episodeList?.map((data) => {
+                {episode.info?.episodeList?.map((data:any) => {
                 return (
                 <a href={`../../anime/episode/${data.episodeId}`}>
                     <div class="p-2 text-center bg-zinc-700 border border-zinc-600 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-200">

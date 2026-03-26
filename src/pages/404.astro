@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+const { slug } = Astro.params
+---
+
+<Layout title="Not Found">
+    <div class="flex flex-col gap-3 justify-center items-center min-h-[90vh]">
+        <h1 class="text-zinc-100 text-5xl font-bold">404</h1>
+        <p class=" text-zinc-300 text-lg">Not Found {slug || "Page"}</p>
+        <img class="mb-3" src="https://media.tenor.com/7LwFR5x_y_sAAAAi/shinky-id.gif"/>
+        <a class="text-sm font-medium text-zinc-200 mt-2" href="/">Back to Home</a>
+    </div>
+</Layout>

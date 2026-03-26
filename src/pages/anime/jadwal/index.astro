@@ -1,0 +1,31 @@
+---
+import Layout from "../../../layouts/Layout.astro"
+const ApiUrl = await fetch("https://www.sankavollerei.com/anime/schedule")
+const Result = await ApiUrl.json()
+const jadwal = Result.data
+console.log(Result.data.day)
+---
+
+<Layout title="Jadwal Anime">
+    <div class="min-h-screen p-8 flex justify-center">
+        <div class="grid grid-cols-4 gap-8">
+            {jadwal.map((data:any) => {
+            return(
+            <div class="flex flex-col gap-2 p-4  border border-zinc-800 h-fit">
+                   <h1 class="text-zinc-100 font-medium text-lg bg-zinc-800 p-2">{data.day}</h1>
+               <div class="grid grid-cols-4 gap-4">
+                   {data.anime_list.map((data:any) => {
+                   return(
+                   <div class="flex flex-col gap-2 items-center">
+                       <img src={data.poster} class="w-12"/>
+                       <a href={`../../anime/detail/${data.slug}`} class="text-zinc-200 cursor-pointer hover:underline text-sm">{data.title}</a>
+                   </div>
+                   )
+                   })}
+               </div>
+            </div>
+            )
+            })}
+        </div>
+    </div>
+</Layout>

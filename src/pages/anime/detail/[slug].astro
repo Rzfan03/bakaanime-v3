@@ -9,13 +9,14 @@ const Anime = Result.data
 const Genre = Anime.genreList
 const AnimeSynop = Anime.synopsis
 const RecommendedAnime = Anime.recommendedAnimeList
+console.log(RecommendedAnime)
 ---
 
-<Layout>
+<Layout title={slug}>
     <section class="min-h-screen bg-zinc-900 p-8 flex flex-col items-center overflow-auto">
         <div class="max-w-6xl w-full flex flex-col gap-12">
             
-            <div class="flex max-md:flex-col justify-between gap-12">
+            <div class="flex max-md:flex-col justify-around gap-20">
                 <div class="flex-shrink-0">
                     <img class="w-90" src={Anime.poster}/>
                 </div>
@@ -28,7 +29,7 @@ const RecommendedAnime = Anime.recommendedAnimeList
                         <p class="text-zinc-200 max-md:text-sm p-2 bg-zinc-800 border border-zinc-700">Episode : {Anime.episodes || "Not Found"}</p>
                     </div>
                     <div class="flex gap-3">
-                        {Genre.map((data:any) => (
+                        {Genre.slice(0, 5).map((data:any) => (
                             <p class="text-zinc-200 underline text-sm">{data.title}</p>
                         ))}
                     </div>
@@ -58,7 +59,7 @@ const RecommendedAnime = Anime.recommendedAnimeList
                 <div class="grid grid-cols-5 max-md:grid-cols-2 gap-3 p-3">
                     {RecommendedAnime.map((data:any) => (
                     <a href={`/anime/detail/${data.animeId}`}>
-                        <div class="p-2 flex flex-col gap-3 bg-zinc-700 border border-zinc-600 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-200">
+                        <div class="p-2 flex h-88 flex-col gap-3 bg-zinc-700 border border-zinc-600 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-zinc-200">
                             <img class="w-full object-cover" src={data.poster}/>
                             <p class="font-medium text-sm line-clamp-2">{data.title}</p>
                         </div>

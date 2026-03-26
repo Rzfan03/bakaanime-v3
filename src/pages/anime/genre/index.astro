@@ -1,0 +1,21 @@
+---
+import Layout from "../../../layouts/Layout.astro"
+const ApiUrl = await fetch("https://www.sankavollerei.com/anime/genre")
+const Result = await ApiUrl.json()
+const genre = Result.data.genreList
+console.log(genre)
+---
+
+<Layout title="Genre Anime">
+    <div class="min-h-screen p-8 flex justify-center">
+        <div class="grid grid-cols-5 gap-8">
+            {genre.map((data:any) => {
+            return(
+            <div class="flex flex-col gap-2 p-4  border border-zinc-800 h-fit">
+                <a href={`../../anime/genre/anime/${data.genreId}`} class="text-zinc-100 font-medium text-lg cursor-pointer hover:underline bg-zinc-800 p-2">{data.title}</a>
+            </div>
+            )
+            })}
+        </div>
+    </div>
+</Layout>

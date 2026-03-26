@@ -9,35 +9,38 @@ const OnGoing = data.ongoing.animeList
 const Completed = data.completed.animeList
 ---
 
-<Layout>
+<Layout title="Home">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <section class="bg-zinc-950 overflow-hidden border-b border-zinc-800">
-    <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
-      {OnGoing.slice(0, 5).map((item:any) => (
-        <div class="min-w-full h-[450px] md:h-[550px] relative snap-center flex-shrink-0">
-          <img src={item.poster} class="absolute inset-0 w-full h-full object-cover opacity-20 blur-sm" alt="" />
-          <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
-          
-          <div class="relative h-full max-w-5xl mx-auto flex items-center p-8 gap-10">
-            <img src={item.poster} class="hidden md:block w-64 h-96 object-cover border border-zinc-800 shadow-2xl" alt={item.title} />
+    <div class="swiper hero-swiper">
+      <div class="swiper-wrapper">
+        {OnGoing.slice(0, 5).map((item:any) => (
+          <div class="swiper-slide relative h-[450px] md:h-[550px] flex-shrink-0">
+            <img src={item.poster} class="absolute inset-0 w-full h-full object-cover opacity-20 blur-sm" alt="" />
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
             
-            <div class="flex flex-col gap-4">
-              <div class="flex items-center gap-2">
-                <span class="w-1 h-5 bg-zinc-200"></span>
-                <span class="text-zinc-400 text-xs font-medium uppercase tracking-widest">Featured Ongoing</span>
+            <div class="relative h-full max-w-5xl mx-auto flex items-center p-8 gap-10">
+              <img src={item.poster} class="hidden md:block w-64 h-96 object-cover border border-zinc-800 shadow-2xl" alt={item.title} />
+              
+              <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-zinc-400 text-xs font-medium">Ongoing</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-medium text-zinc-200 leading-tight">{item.title}</h2>
+                <div class="flex flex-col gap-2 text-sm text-zinc-500">
+                  <span>Eps: {item.episodes}</span>
+                  <span>Rilis Setiap : {item.releaseDay}</span>
+                </div>
+                <a href={`/anime/detail/${item.animeId}`} class="mt-4 px-8 py-3 bg-zinc-200 text-zinc-900 font-medium text-sm hover:bg-white transition-all w-fit">
+                  Tonton
+                </a>
               </div>
-              <h2 class="text-4xl md:text-5xl font-medium text-zinc-200 leading-tight">{item.title}</h2>
-              <div class="flex gap-4 text-sm text-zinc-500 italic">
-                <span>Eps: {item.episodes}</span>
-                <span>•</span>
-                <span>{item.releaseDay}</span>
-              </div>
-              <a href={`/anime/detail/${item.animeId}`} class="mt-4 px-8 py-3 bg-zinc-200 text-zinc-900 font-medium text-sm hover:bg-white transition-all w-fit">
-                Watch Now
-              </a>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <div class="swiper-pagination !bottom-5"></div>
     </div>
   </section>
 
@@ -47,7 +50,6 @@ const Completed = data.completed.animeList
       <section>
         <div class="flex items-center gap-4 mb-10">
           <h2 class="text-zinc-200 text-2xl font-medium tracking-tight">OnGoing</h2>
-          <div class="h-px flex-1 bg-zinc-800"></div>
         </div>
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -61,7 +63,7 @@ const Completed = data.completed.animeList
               </div>
               <div class="space-y-1">
                 <h3 class="text-zinc-200 text-sm font-medium line-clamp-2 group-hover:underline">{item.title}</h3>
-                <p class="text-zinc-500 text-[10px]">Rilis Setiap : {item.releaseDay}</p>
+                <p class="text-zinc-500 text-xs">Rilis Setiap : {item.releaseDay}</p>
               </div>
             </a>
           ))}
@@ -71,7 +73,6 @@ const Completed = data.completed.animeList
       <section>
         <div class="flex items-center gap-4 mb-10">
           <h2 class="text-zinc-200 text-2xl font-medium tracking-tight text-opacity-50">Completed</h2>
-          <div class="h-px flex-1 bg-zinc-800"></div>
         </div>
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -80,7 +81,7 @@ const Completed = data.completed.animeList
               <div class="relative aspect-[3/4] overflow-hidden bg-black border border-zinc-800 grayscale group-hover:grayscale-0 transition-all">
                 <img src={item.poster} class="h-full w-full object-cover" alt={item.title} />
                 <div class="absolute bottom-0 left-0 right-0 bg-zinc-900/90 p-2 border-t border-zinc-800 translate-y-full group-hover:translate-y-0 transition-transform">
-                  <p class="text-[9px] text-zinc-400 text-center font-medium uppercase">Score: {item.score || "-"}</p>
+                  <p class="text-sm text-zinc-400 text-center font-medium">Rating : {item.score || "-"}</p>
                 </div>
               </div>
               <h3 class="text-zinc-400 text-xs font-medium line-clamp-1 group-hover:text-zinc-200">{item.title}</h3>
@@ -91,9 +92,33 @@ const Completed = data.completed.animeList
 
     </div>
   </div>
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script is:inline>
+    new Swiper('.hero-swiper', {
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      grabCursor: true, 
+    });
+  </script>
 </Layout>
 
-<style>
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+<style is:global>
+  .swiper-pagination-bullet {
+    background: #3f3f46 !important;
+    opacity: 1 !important;
+  }
+  .swiper-pagination-bullet-active {
+    background: #e4e4e7 !important;
+    width: 20px !important;
+    border-radius: 4px !important;
+  }
 </style>
